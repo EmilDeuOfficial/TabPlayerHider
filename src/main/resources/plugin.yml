@@ -1,0 +1,19 @@
+name: TabPlayerHider
+version: '${project.version}'
+main: de.emilo.tabplayerhider.TabPlayerHider
+api-version: '1.21'
+description: Hides specific players from the tab list without affecting in-game visibility
+authors: [EmilDeuOfficial]
+website: https://github.com/EmilDeuOfficial/TabPlayerHider
+
+commands:
+  tabplayerhide:
+    description: TabPlayerHider main command
+    usage: /tabplayerhide <on|off|status|hide|show|list|reload>
+    aliases: [tph]
+    permission: tabplayerhider.admin
+
+permissions:
+  tabplayerhider.admin:
+    description: Access to all TabPlayerHider commands
+    default: op

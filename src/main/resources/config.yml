@@ -1,0 +1,8 @@
+# Whether hiding is active (toggle with /tph on and /tph off)
+enabled: true
+
+# Players listed here are hidden from all other players' tab lists.
+# Names are case-sensitive and must match the exact Minecraft username.
+hidden-players:
+  - "BotName1"
+  - "BotName2"
