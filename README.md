@@ -1,17 +1,29 @@
-## 👁️ TabPlayerHider
+# TabPlayerHider
 
-Hides specific players from the tab list without removing them from the game world.
+Hides specific players from the tab list without removing them from the game world. Useful for servers running bots: names listed in `hidden-players` disappear from the tab list but stay fully present in game, with normal collision, visibility and behaviour.
 
-Perfect for servers running bots — players in `hidden-players` are invisible in the tab list but fully present in-game, unaffected by lag, collision, or visibility.
+## Features
 
-### ✨ Features
+- Removes configured players from every client's tab list on join, using a 1 tick delayed packet
+- Hide and show players instantly via command, no relog required
+- Bot names are stored in the config and persist across restarts
+- Tab completion for `/tabh hide` lists online players, `/tabh show` lists currently hidden names
 
-- Removes configured players from every client's tab list on join (1-tick delayed packet)
-- Immediate hide/show via commands — no relog needed
-- Config-driven: add bot names once, persisted across restarts
-- Tab-complete for `/tabh hide` shows online players; `/tabh show` shows currently hidden names
+## Requirements
 
-### ⚙️ Configuration
+| | |
+|---|---|
+| Server | Paper 1.21.x |
+| Java | 21+ |
+
+## Installation
+
+1. Download the latest JAR from [Releases](../../releases)
+2. Drop it into your server's `plugins/` folder
+3. Restart the server
+4. Add your bot names with `/tph hide <player>` or directly in `config.yml`
+
+## Configuration
 
 ```yaml
 # config.yml
@@ -20,42 +32,35 @@ hidden-players:
   - "BotName2"
 ```
 
-Names are **case-sensitive** and must match the exact Minecraft username.
+Names are case-sensitive and must match the exact Minecraft username.
 
-### 🔑 Permissions
+## Permissions
 
 | Permission | Description | Default |
 |---|---|---|
 | `tabplayerhider.admin` | Access to all `/tabh` commands | op |
 
-### 💬 Commands
+## Commands
 
-Main command: `/tabplayerhide` · Alias: `/tph`
+Main command: `/tabplayerhide`, alias: `/tph`
 
 | Command | Description |
 |---|---|
-| `/tph on` | Enable hiding (hidden players disappear from tab list) |
-| `/tph off` | Disable hiding (all players visible in tab list again) |
-| `/tph status` | Show current state, hidden player count, and who is online |
-| `/tph hide <player>` | Hide a player from the tab list (saves to config) |
+| `/tph on` | Enable hiding, hidden players disappear from the tab list |
+| `/tph off` | Disable hiding, all players are visible in the tab list again |
+| `/tph status` | Show current state, hidden player count and who is online |
+| `/tph hide <player>` | Hide a player from the tab list and save it to the config |
 | `/tph show <player>` | Show a player in the tab list again |
 | `/tph list` | List all currently hidden player names |
-| `/tph reload` | Reload config and re-apply hiding |
+| `/tph reload` | Reload the config and re-apply hiding |
 
-### 📋 Requirements
+## How it works
 
-| | |
-|---|---|
-| Server | Paper 1.21.x |
-| Java | 21+ |
+On every player join the plugin sends a `ClientboundPlayerInfoRemovePacket` for each hidden player directly to the joining client, one tick after join so it lands after the server's own player-info broadcast. Only the tab list packet is touched, not entity tracking or the scoreboard, so hidden players stay fully visible in the world.
 
-### 🔧 How it works
+### Build setup (NMS access)
 
-On every player join, the plugin sends a `ClientboundPlayerInfoRemovePacket` (1 tick after join, after the server's own player-info broadcast) for each hidden player directly to the joining client. Because this only manipulates the tab list packet — and not the entity tracking or scoreboard — hidden players remain fully visible in the world.
-
-#### Build setup (NMS access)
-
-The plugin uses NMS to send raw packets. Place your Paper 1.21.4 server JAR in `server/`, then install it to your local Maven repository:
+The plugin sends raw packets, so it needs NMS. Put your Paper 1.21.4 server JAR in `server/` and install it into your local Maven repository:
 
 ```bash
 mvn install:install-file \
@@ -72,8 +77,8 @@ Then build normally:
 mvn package
 ```
 
-Output: `target/TabPlayerHider-1.0.jar` → copy to `plugins/`.
+Output: `target/TabPlayerHider-1.0.jar`, copy it to `plugins/`.
 
-### 📦 Source
+## Source
 
 [github.com/EmilDeuOfficial/TabPlayerHider](https://github.com/EmilDeuOfficial/TabPlayerHider)
