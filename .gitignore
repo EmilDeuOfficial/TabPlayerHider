@@ -1,8 +1,0 @@
-target/
-*.class
-server/*.jar
-server/logs/
-server/world*/
-server/plugins/
-*.iml
-.idea/
